@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
 import useConnectToDb from "./useConnectToDb";
-import { MakeTransaction } from "../..";
+import { makeTransaction } from "../..";
 
-const useGetFolders = () => {
+const useGetDbEntries = () => {
   const { db } = useConnectToDb();
   const [dbEntries, setDbEntries] = useState([]);
   useEffect(() => {
-    console.log("rujn");
     const entriesArray = [];
-    const arr = [];
     if (db !== null) {
-      const transaction = MakeTransaction(db, "readonly");
+      const transaction = makeTransaction(db, "readonly");
       const objectStore = transaction.objectStore("Bookmarks");
       const cursorReq = objectStore.openCursor();
       cursorReq.onsuccess = (event) => {
@@ -31,4 +29,4 @@ const useGetFolders = () => {
   return { dbEntries };
 };
 
-export default useGetFolders;
+export default useGetDbEntries;

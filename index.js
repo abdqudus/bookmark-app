@@ -16,7 +16,7 @@ export function DB() {
   };
   return db;
 }
-export function MakeTransaction(db, mode) {
+export function makeTransaction(db, mode) {
   let transaction = db.transaction("Bookmarks", mode);
   transaction.onerror = (err) => console.warn(err);
   return transaction;

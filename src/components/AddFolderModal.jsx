@@ -1,20 +1,12 @@
-import { useRef } from "react";
+import { useState } from "react";
+import useConnectToDb from "../custom Hooks/useConnectToDb";
+import { addToStore } from "../utils/addToStore";
 
-const AddFolderModal = ({
-  isNewFolderOpen,
-  folderName,
-  setFolderName,
-  setIsNewFolderOpen,
-  store,
-}) => {
-  const inputRef = useRef(null);
-  if (inputRef.current) {
-    inputRef.current.focus();
-  }
+const AddFolderModal = ({ isNewFolderOpen, setIsNewFolderOpen }) => {
+  const [folderName, setFolderName] = useState({ value: "" });
+  const { db } = useConnectToDb();
   const handleSaveBookmark = () => {
-    if (folderName.value) {
-      store.add({ id: Date.now(), name: folderName.value, isTopMost: true });
-    }
+    addToStore(db, folderName.value);
     setIsNewFolderOpen(false);
   };
   const display = isNewFolderOpen ? "flex animate-fadeIn" : "hidden";
@@ -31,7 +23,6 @@ const AddFolderModal = ({
           <span className="block w-full text-white font-semibold">Name :</span>
         </label>
         <input
-          ref={inputRef}
           className="flex-grow outline-2  smallest:w-full border-2 outline-white p-2 rounded-xl"
           type="text"
           id="folderName"

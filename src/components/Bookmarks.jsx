@@ -2,14 +2,16 @@ import { useState } from "react";
 import AddBtn from "./AddBtn";
 import AddFolderModal from "./AddFolderModal";
 import useConnectToDb from "../custom Hooks/useConnectToDb";
-import useGetFolders from "../custom Hooks/useGetFolders";
+import useGetDbEntries from "../custom Hooks/useGetDbEntries";
 import Folder from "./Folder";
+import AddNewBookmark from "./AddNewBookmark";
+import NewBookmarkForm from "./NewBookmarkForm";
 
 const Bookmarks = () => {
   const [isNewFolderOpen, setIsNewFolderOpen] = useState(false);
+  const [isNewBookmarkModalOpen, setIsNewBookmarkModalOpen] = useState(false);
   const { store } = useConnectToDb();
-  const [folderName, setFolderName] = useState({ value: "" });
-  const { dbEntries } = useGetFolders();
+  const { dbEntries } = useGetDbEntries();
 
   return (
     <div className="bg-white rounded-2xl relative pt-[50px] text-[#0F1035]">
@@ -25,17 +27,27 @@ const Bookmarks = () => {
         </span>
         <p className="flex-grow">New folder</p>
       </div>
-      {dbEntries.map((folder) => (
-        <Folder key={folder.id} folder={folder} />
-      ))}
+      {dbEntries
+        .filter((entry) => entry.type === "folder")
+        .map((folder) => (
+          <Folder key={folder.id} folder={folder} />
+        ))}
+
       <AddFolderModal
         isNewFolderOpen={isNewFolderOpen}
-        folderName={folderName}
-        setFolderName={setFolderName}
         setIsNewFolderOpen={setIsNewFolderOpen}
         store={store}
       />
-      <AddBtn />
+      <AddNewBookmark
+        isNewBookmarkModalOpen={isNewBookmarkModalOpen}
+        setIsNewBookmarkModalOpen={setIsNewBookmarkModalOpen}
+        NewBookmarkForm={
+          <NewBookmarkForm
+            setIsNewBookmarkModalOpen={setIsNewBookmarkModalOpen}
+          />
+        }
+      />
+      <AddBtn setIsNewBookmarkModalOpen={setIsNewBookmarkModalOpen} />
     </div>
   );
 };
