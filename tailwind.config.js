@@ -6,21 +6,26 @@ export default {
     extend: {
       screens: {
         smallest: { max: "350px" },
+        medium: { max: "500px" },
       },
       keyframes: {
-        fadeIn: {
-          "0%": { opacity: "0", display: "flex" },
-          "100%": { opacity: "1", display: "flex" },
+        slideBkIn: {
+          to: { top: "15%" },
         },
-        fadeOut: {
-          "0%": { opacity: "1", display: "flex" },
-          "99%": { opacity: ".1", display: "flex" },
-          "100%": { opacity: "0", display: "none" },
+        slideBkOut: {
+          to: { top: "-100%" },
         },
+        slideIn: {
+          from: { transform: "translateX(500px)" },
+        },
+        "fade-in": { to: { opacity: 1 } },
       },
       animation: {
-        fadeIn: "fadeIn .4s ease-in ",
-        fadeOut: "fadeOut .3s ease-in forwards",
+        "fade-in": "fade-in .2s linear .3s forwards",
+        // slideIn: "slideIn .3s ease-in ",
+        // slideOut: "slideOut .3s ease-in forwards",
+        // slideBkIn: "slideBkIn ease-in",
+        // slideBkOut: "slideBkOut ease-in forwards",
       },
     },
   },

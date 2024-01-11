@@ -1,9 +1,8 @@
+import { getRequest } from "./src/utils/getRequest";
+
 export function DB() {
   let db;
-  const request = window.indexedDB.open("BookmarksDb", 1);
-  request.onerror = (event) => {
-    console.log(event);
-  };
+  const request = getRequest();
 
   request.onsuccess = (event) => {
     db = event.target.result;

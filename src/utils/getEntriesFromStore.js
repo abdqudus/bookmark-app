@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
-import useConnectToDb from "./useConnectToDb";
 import { makeTransaction } from "../..";
+import { getRequest } from "./getRequest";
 
-const useGetDbEntries = () => {
-  const { db } = useConnectToDb();
-  const [dbEntries, setDbEntries] = useState([]);
-  useEffect(() => {
-    const entriesArray = [];
+export const getEntriesFromStore = (setNewEntries) => {
+  const entriesArray = [];
+  let store;
+  const request = getRequest();
+  request.onsuccess = (event) => {
+    const db = event.target.result;
+    const transaction = db.transaction("Bookmarks", "readwrite");
+    store = transaction.objectStore("Bookmarks");
     if (db !== null) {
       const transaction = makeTransaction(db, "readonly");
       const objectStore = transaction.objectStore("Bookmarks");
@@ -19,12 +21,9 @@ const useGetDbEntries = () => {
           }
           cursor.continue();
         } else {
-          setDbEntries(entriesArray);
+          setNewEntries(entriesArray);
         }
       };
     }
-  }, [db]);
-  return { dbEntries, setDbEntries };
+  };
 };
-
-export default useGetDbEntries;

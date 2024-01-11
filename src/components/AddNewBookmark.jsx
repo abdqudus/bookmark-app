@@ -1,30 +1,89 @@
-import React, { useState } from "react";
-import NewBookmarkForm from "./NewBookmarkForm";
+import { useEffect, useRef, useState } from "react";
+import { fadeOutModal } from "../utils/fadeModalOut";
+import useHandleFormChange from "../custom Hooks/useHandleFormChange";
+import { addToStore } from "../utils/addToStore";
+import { formatEntry } from "../utils/formatEntry";
+import { useParams } from "react-router-dom";
 
 const AddNewBookmark = ({
   isNewBookmarkModalOpen,
-  NewBookmarkForm,
   setIsNewBookmarkModalOpen,
+  setEntries,
 }) => {
-  const display = isNewBookmarkModalOpen ? "flex animate-fadeIn" : "hidden";
+  const display = isNewBookmarkModalOpen ? "flex fade-in" : "hidden";
+  const countRef = useRef(0);
+  const [count, setCount] = useState(0);
+  const { parentName } = useParams();
+  const nameRef = useRef();
+  const { bookmark, handleChange } = useHandleFormChange();
+  const dialogRef = useRef();
 
+  const handleSaveBookmark = () => {
+    const entry = formatEntry({
+      name: bookmark.name,
+      parent: parentName,
+      address: bookmark.address,
+      type: "bookmark",
+    });
+    addToStore(db, entry);
+    fadeOutModal(modalRef.current, setIsNewBookmarkModalOpen);
+    setEntries((prev) => [...prev, entry]);
+  };
   return (
-    <div
-      className={`${display} p-4 w-[90%] bg-[#7FC7D9] max-w-[500px] absolute top-0 left-1/2 overflow-x-auto -translate-x-1/2  flex-col gap-4 rounded-xl shadow-slate-500 mx-auto border-2`}
+    <dialog
+      ref={dialogRef}
+      className={`absolute opacity-0 ${display} w-screen h-screen flex bg-black bg-opacity-50 items-center justify-center inset-0`}
     >
-      <div className="flex justify-between text-white font-semibold items-center smallest:flex-col-reverse smallest:items-start">
-        <h2>Create New Bookmark</h2>
-        <span
-          onClick={() => {
-            setIsNewBookmarkModalOpen(false);
-          }}
-          className="smallest:ml-auto"
+      <form
+        method="dialog"
+        className="max-w-[400px] scale-0 w-[90%] p-4 rounded-2xl  bg-white"
+      >
+        <div className="flex justify-between text-black font-semibold items-center smallest:flex-col-reverse smallest:items-start">
+          <h2>Create New Bookmark</h2>
+          <span
+            onClick={() => {
+              fadeOutModal(modalRef.current, setIsNewFolderOpen);
+            }}
+            className="smallest:ml-auto cursor-pointer "
+          >
+            X
+          </span>
+        </div>
+        <div className="flex gap-2 mt-3 flex-col">
+          <label className="flex-grow-0 text-lg" htmlFor="folderName">
+            <span className="block w-full font-semibold">Name :</span>
+          </label>
+          <input
+            ref={nameRef}
+            className="flex-grow  p-2 focus:outline-[#7FC7D9] outline-2 smallest:w-full border-[#0F1035] border rounded-lg "
+            type="text"
+            id="name"
+            name="name"
+            value={bookmark.name}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="flex gap-2 mt-3 flex-col mb-2">
+          <label className="flex-grow-0 text-lg" htmlFor="folderName">
+            <span className="block w-full font-semibold">Address :</span>
+          </label>
+          <input
+            className="flex-grow  p-2 focus:outline-[#7FC7D9] outline-2 smallest:w-full border-[#0F1035] border rounded-lg "
+            type="text"
+            id="address"
+            name="address"
+            value={bookmark.address}
+            onChange={handleChange}
+          />
+        </div>
+        <button
+          onClick={handleSaveBookmark}
+          className="outline-[#7FC7D9] mt-3 float-right bg-[#0F1035] scale-90 hover:scale-100 transition outline outline-offset-1 rounded-lg px-4 py-1 text-lg ml-auto text-[#7FC7D9] tracking-widest font-semibold"
         >
-          X
-        </span>
-      </div>
-      {NewBookmarkForm}
-    </div>
+          Done
+        </button>
+      </form>
+    </dialog>
   );
 };
 export default AddNewBookmark;

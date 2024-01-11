@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { getRequest } from "../utils/getRequest";
 
 const useConnectToDb = () => {
   const [db, setDb] = useState(null);
@@ -6,11 +7,7 @@ const useConnectToDb = () => {
   const [store, setStore] = useState("");
 
   useEffect(() => {
-    const request = window.indexedDB.open("BookmarksDb", 1);
-
-    request.onerror = (event) => {
-      console.log(event);
-    };
+    const request = getRequest();
 
     request.onsuccess = (event) => {
       const db = event.target.result;

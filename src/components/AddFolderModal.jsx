@@ -1,43 +1,76 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useConnectToDb from "../custom Hooks/useConnectToDb";
 import { addToStore } from "../utils/addToStore";
+import { formatEntry } from "../utils/formatEntry";
+import { useParams } from "react-router-dom";
+import { fadeOutModal } from "../utils/fadeModalOut";
 
-const AddFolderModal = ({ isNewFolderOpen, setIsNewFolderOpen }) => {
+const AddFolderModal = ({
+  isNewFolderOpen,
+  setIsNewFolderOpen,
+  setEntries,
+}) => {
   const [folderName, setFolderName] = useState({ value: "" });
   const { db } = useConnectToDb();
+  const inputRef = useRef();
+  const { parentName } = useParams();
+  const modalRef = useRef();
+  console.log(parentName);
+  const display = isNewFolderOpen ? "flex fade-in" : "hidden";
   const handleSaveBookmark = () => {
-    addToStore(db, folderName.value);
-    setIsNewFolderOpen(false);
+    const entry = formatEntry({ name: folderName.value, parent: parentName });
+    addToStore(db, entry);
+    fadeOutModal(modalRef.current, setIsNewFolderOpen);
+    setEntries((prev) => [...prev, entry]);
   };
-  const display = isNewFolderOpen ? "flex animate-fadeIn" : "hidden";
+  if (inputRef.current) {
+    setTimeout(() => {
+      inputRef.current.focus();
+    }, 0);
+  }
+
   return (
-    <div
-      className={`${display} p-4 w-[90%] bg-[#7FC7D9] max-w-[500px] absolute top-1/4 left-1/2 overflow-x-auto -translate-x-1/2  flex-col gap-4 rounded-xl shadow-slate-500 mx-auto border-2`}
+    <dialog
+      ref={modalRef}
+      className={`bg-black folder bg-opacity-50 opacity-0 ${display} justify-center items-center  fixed top-0 left-0 w-screen h-screen`}
     >
-      <div className="flex justify-between text-white font-semibold items-center smallest:flex-col-reverse smallest:items-start">
-        <h2>Create New Folder</h2>
-        <span className="smallest:ml-auto">X</span>
-      </div>
-      <form className="flex flex-wrap smallest:items-start items-center gap-3">
-        <label className="flex-grow-0 text-lg" htmlFor="folderName">
-          <span className="block w-full text-white font-semibold">Name :</span>
-        </label>
-        <input
-          className="flex-grow outline-2  smallest:w-full border-2 outline-white p-2 rounded-xl"
-          type="text"
-          id="folderName"
-          name="value"
-          value={folderName.value}
-          onChange={(e) => setFolderName({ [e.target.name]: e.target.value })}
-        />
-      </form>
-      <button
-        onClick={handleSaveBookmark}
-        className="bg-blue-400 rounded-xl px-4 py-2 text-lg ml-auto text-white tracking-widest font-semibold"
+      <form
+        method="dialog"
+        className="max-w-[300px] scale-0 w-[90%] p-4 rounded-2xl  bg-white"
       >
-        Done
-      </button>
-    </div>
+        <div className="flex justify-between text-black font-semibold items-center smallest:flex-col-reverse smallest:items-start">
+          <h2>Create New Folder</h2>
+          <span
+            onClick={() => {
+              fadeOutModal(modalRef.current, setIsNewFolderOpen);
+            }}
+            className="smallest:ml-auto cursor-pointer "
+          >
+            X
+          </span>
+        </div>
+        <div className="flex gap-2 mt-3 flex-wrap items-center">
+          <label className="flex-grow-0 text-lg" htmlFor="folderName">
+            <span className="block w-full font-semibold">Name :</span>
+          </label>
+          <input
+            className="flex-grow  p-2 focus:outline-[#7FC7D9] outline-2 smallest:w-full border-[#0F1035] border rounded-lg "
+            type="text"
+            id="folderName"
+            name="value"
+            value={folderName.value}
+            ref={inputRef}
+            onChange={(e) => setFolderName({ [e.target.name]: e.target.value })}
+          />
+        </div>
+        <button
+          onClick={handleSaveBookmark}
+          className="outline-[#7FC7D9] mt-3 float-right bg-[#0F1035] scale-90 hover:scale-100 transition outline outline-offset-1 rounded-lg px-4 py-1 text-lg ml-auto text-[#7FC7D9] tracking-widest font-semibold"
+        >
+          Done
+        </button>
+      </form>
+    </dialog>
   );
 };
 
