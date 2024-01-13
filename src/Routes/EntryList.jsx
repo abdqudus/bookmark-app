@@ -1,12 +1,9 @@
-import { useEffect, useState } from "react";
-import { getEntriesFromStore } from "../utils/getEntriesFromStore";
 import Folder from "../components/Folder";
 import BookMarkLink from "../components/BookMarkLink";
-import { useOutletContext } from "react-router-dom";
+import useGetEntries from "../custom Hooks/useGetEntries";
 
 const EntryList = () => {
-  const [entries, setEntries] = useOutletContext();
-
+  const { entries } = useGetEntries();
   const filteredEntries = entries.filter((entry) => entry.isTopMost);
   return (
     <div className=" ">

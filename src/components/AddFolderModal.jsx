@@ -1,26 +1,36 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import useConnectToDb from "../custom Hooks/useConnectToDb";
 import { addToStore } from "../utils/addToStore";
 import { formatEntry } from "../utils/formatEntry";
 import { useParams } from "react-router-dom";
 import { fadeOutModal } from "../utils/fadeModalOut";
+import useModalContext from "../custom Hooks/useModalContext";
+import useGetEntries from "../custom Hooks/useGetEntries";
 
-const AddFolderModal = ({
-  isNewFolderOpen,
-  setIsNewFolderOpen,
-  setEntries,
-}) => {
+const AddFolderModal = () => {
+  const setEntries = useGetEntries();
+
   const [folderName, setFolderName] = useState({ value: "" });
+
+  const { isNewFolderOpen, setIsNewFolderOpen } = useModalContext();
+
   const { db } = useConnectToDb();
+
   const inputRef = useRef();
+
   const { parentName } = useParams();
+
   const modalRef = useRef();
-  console.log(parentName);
+
   const display = isNewFolderOpen ? "flex fade-in" : "hidden";
+
   const handleSaveBookmark = () => {
     const entry = formatEntry({ name: folderName.value, parent: parentName });
+
     addToStore(db, entry);
+
     fadeOutModal(modalRef.current, setIsNewFolderOpen);
+
     setEntries((prev) => [...prev, entry]);
   };
   if (inputRef.current) {

@@ -1,9 +1,8 @@
-import { useState } from "react";
 import AddNewBookmark from "./AddNewBookmark";
-import NewBookmarkForm from "./NewBookmarkForm";
+import useModalContext from "../custom Hooks/useModalContext";
 
 const AddBtn = ({ setEntries }) => {
-  const [isNewBookmarkModalOpen, setIsNewBookmarkModalOpen] = useState(null);
+  const { isNewBookmarkModalOpen, setIsNewBookmarkModalOpen } = useModalContext;
   const addBookmark = () => {
     setIsNewBookmarkModalOpen((prev) => !prev);
   };
@@ -15,11 +14,7 @@ const AddBtn = ({ setEntries }) => {
       >
         New Bookmark
       </button>
-      <AddNewBookmark
-        isNewBookmarkModalOpen={isNewBookmarkModalOpen}
-        setIsNewBookmarkModalOpen={setIsNewBookmarkModalOpen}
-        setEntries={setEntries}
-      />
+      <AddNewBookmark setEntries={setEntries} />
     </div>
   );
 };

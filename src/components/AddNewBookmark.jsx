@@ -1,18 +1,21 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { fadeOutModal } from "../utils/fadeModalOut";
 import useHandleFormChange from "../custom Hooks/useHandleFormChange";
 import { addToStore } from "../utils/addToStore";
 import { formatEntry } from "../utils/formatEntry";
 import { useParams } from "react-router-dom";
+import Cancel from "../images/cancel.png";
+import useConnectToDb from "../custom Hooks/useConnectToDb";
+import useOpenModal from "../custom Hooks/useOpenModal";
+import useModalContext from "../custom Hooks/useModalContext";
+import useGetEntries from "../custom Hooks/useGetEntries";
 
-const AddNewBookmark = ({
-  isNewBookmarkModalOpen,
-  setIsNewBookmarkModalOpen,
-  setEntries,
-}) => {
+const AddNewBookmark = () => {
+  const { setEntries } = useGetEntries();
+  const { isNewBookmarkModalOpen, setIsNewBookmarkModalOpen } =
+    useModalContext();
   const display = isNewBookmarkModalOpen ? "flex fade-in" : "hidden";
-  const countRef = useRef(0);
-  const [count, setCount] = useState(0);
+  const { db } = useConnectToDb();
   const { parentName } = useParams();
   const nameRef = useRef();
   const { bookmark, handleChange } = useHandleFormChange();
@@ -25,9 +28,11 @@ const AddNewBookmark = ({
       address: bookmark.address,
       type: "bookmark",
     });
-    addToStore(db, entry);
-    fadeOutModal(modalRef.current, setIsNewBookmarkModalOpen);
-    setEntries((prev) => [...prev, entry]);
+    if (entry) {
+      addToStore(db, entry);
+      setEntries((prev) => [...prev, entry]);
+    }
+    fadeOutModal(dialogRef.current, setIsNewBookmarkModalOpen);
   };
   return (
     <dialog
@@ -42,11 +47,11 @@ const AddNewBookmark = ({
           <h2>Create New Bookmark</h2>
           <span
             onClick={() => {
-              fadeOutModal(modalRef.current, setIsNewFolderOpen);
+              fadeOutModal(dialogRef.current, setIsNewBookmarkModalOpen);
             }}
             className="smallest:ml-auto cursor-pointer "
           >
-            X
+            <img src={Cancel} alt="" />
           </span>
         </div>
         <div className="flex gap-2 mt-3 flex-col">

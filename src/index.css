@@ -54,3 +54,19 @@ div.fade-out {
     transform: scale(0);
   }
 }
+.options.show {
+  transform: scale(1);
+  opacity: 1;
+}
+.options.show p {
+  visibility: visible;
+}
+.options {
+  transition: all 0.3s linear;
+  transform: scale(0);
+  opacity: 0;
+}
+.options p {
+  transition: 0.3s linear;
+  visibility: hidden;
+}

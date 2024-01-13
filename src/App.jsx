@@ -4,20 +4,26 @@ import Home from "./Routes/Home";
 import FolderChild from "./components/FolderChild";
 import EntryList from "./Routes/EntryList";
 import Bookmarks from "./components/Bookmarks";
+import ModalContext from "./contexts/ModalContext";
+import EntriesContext from "./contexts/EntriesContext";
 
 DB();
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />}>
-          <Route path="/" element={<Bookmarks />}>
-            <Route index element={<EntryList />} />
-            <Route path=":parentName" element={<FolderChild />} />
-          </Route>
-        </Route>
-      </Routes>
+      <ModalContext>
+        <EntriesContext>
+          <Routes>
+            <Route path="/" element={<Home />}>
+              <Route path="/" element={<Bookmarks />}>
+                <Route index element={<EntryList />} />
+                <Route path=":parentName" element={<FolderChild />} />
+              </Route>
+            </Route>
+          </Routes>
+        </EntriesContext>
+      </ModalContext>
     </BrowserRouter>
   );
 }

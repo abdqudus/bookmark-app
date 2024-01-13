@@ -3,8 +3,7 @@ import { useParams } from "react-router-dom";
 
 const FolderChild = () => {
   const { parentName } = useParams();
-  console.log(parentName);
-  return <div>Hello world</div>;
+  return <div>{parentName}</div>;
 };
 
 export default FolderChild;
