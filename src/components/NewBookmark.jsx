@@ -1,10 +1,11 @@
 import AddNewBookmark from "./AddNewBookmark";
 import useModalContext from "../custom Hooks/useModalContext";
 
-const AddBtn = ({ setEntries }) => {
-  const { isNewBookmarkModalOpen, setIsNewBookmarkModalOpen } = useModalContext;
+const AddBtn = () => {
+  // const { setIsNewBookmark } = useModalContext();
+  const { dispatch } = useModalContext();
   const addBookmark = () => {
-    setIsNewBookmarkModalOpen((prev) => !prev);
+    dispatch({ type: "new bookmark", name: "isNewBookmark" });
   };
   return (
     <div className="flex">
@@ -14,7 +15,7 @@ const AddBtn = ({ setEntries }) => {
       >
         New Bookmark
       </button>
-      <AddNewBookmark setEntries={setEntries} />
+      <AddNewBookmark />
     </div>
   );
 };

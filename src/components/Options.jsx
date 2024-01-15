@@ -4,8 +4,8 @@ import useModalContext from "../custom Hooks/useModalContext";
 import { removeFromStore } from "../utils/removeFromStore";
 import AddFolderModal from "./AddFolderModal";
 
-const Options = ({ folder, show }) => {
-  const { setIsNewFolderOpen } = useModalContext();
+const Options = ({ folder, show, setShow }) => {
+  const { dispatch } = useModalContext();
   const { entries, setEntries } = useGetEntries();
   const visibility = show ? "show" : "";
 
@@ -16,7 +16,8 @@ const Options = ({ folder, show }) => {
     removeFromStore(db, folder.id);
   };
   const handleRename = () => {
-    setIsNewFolderOpen(true);
+    dispatch({ type: "rename folder", name: "isRenameFolder" });
+    setShow(false);
   };
   return (
     <div
@@ -43,7 +44,6 @@ const Options = ({ folder, show }) => {
       <p className="cursor-pointer hover:bg-[#0F1035] hover:text-white  p-2 rounded-b-xl">
         Copy
       </p>
-      {/* <AddFolderModal /> */}
     </div>
   );
 };

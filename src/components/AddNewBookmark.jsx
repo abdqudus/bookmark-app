@@ -6,21 +6,34 @@ import { formatEntry } from "../utils/formatEntry";
 import { useParams } from "react-router-dom";
 import Cancel from "../images/cancel.png";
 import useConnectToDb from "../custom Hooks/useConnectToDb";
-import useOpenModal from "../custom Hooks/useOpenModal";
 import useModalContext from "../custom Hooks/useModalContext";
 import useGetEntries from "../custom Hooks/useGetEntries";
 
 const AddNewBookmark = () => {
   const { setEntries } = useGetEntries();
-  const { isNewBookmarkModalOpen, setIsNewBookmarkModalOpen } =
-    useModalContext();
-  const display = isNewBookmarkModalOpen ? "flex fade-in" : "hidden";
+  const { isNewBookmark, isRenameBookmark, dispatch } = useModalContext();
+  const display = isNewBookmark || isRenameBookmark ? "flex fade-in" : "hidden";
   const { db } = useConnectToDb();
   const { parentName } = useParams();
   const nameRef = useRef();
   const { bookmark, handleChange } = useHandleFormChange();
   const dialogRef = useRef();
 
+  const closeModal = () => {
+    if (isNewBookmark) {
+      const eventObj = {
+        type: "new bookmark",
+        name: "isNewBookmark",
+      };
+      fadeOutModal(dialogRef.current, dispatch, eventObj);
+    } else {
+      const eventObj = {
+        type: "rename bookmark",
+        name: "isRenameBookmark",
+      };
+      fadeOutModal(dialogRef.current, dispatch, eventObj);
+    }
+  };
   const handleSaveBookmark = () => {
     const entry = formatEntry({
       name: bookmark.name,
@@ -32,7 +45,7 @@ const AddNewBookmark = () => {
       addToStore(db, entry);
       setEntries((prev) => [...prev, entry]);
     }
-    fadeOutModal(dialogRef.current, setIsNewBookmarkModalOpen);
+    closeModal();
   };
   return (
     <dialog
@@ -46,9 +59,7 @@ const AddNewBookmark = () => {
         <div className="flex justify-between text-black font-semibold items-center smallest:flex-col-reverse smallest:items-start">
           <h2>Create New Bookmark</h2>
           <span
-            onClick={() => {
-              fadeOutModal(dialogRef.current, setIsNewBookmarkModalOpen);
-            }}
+            onClick={closeModal}
             className="smallest:ml-auto cursor-pointer "
           >
             <img src={Cancel} alt="" />

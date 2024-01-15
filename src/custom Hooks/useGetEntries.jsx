@@ -3,7 +3,6 @@ import { EntryContext } from "../contexts/EntriesContext";
 
 const useGetEntries = () => {
   const entriesContext = useContext(EntryContext);
-
   return entriesContext;
 };
 

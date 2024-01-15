@@ -3,7 +3,7 @@ import { DB } from "..";
 import Home from "./Routes/Home";
 import FolderChild from "./components/FolderChild";
 import EntryList from "./Routes/EntryList";
-import Bookmarks from "./components/Bookmarks";
+import BookmarksInterface from "./components/Bookmarks";
 import ModalContext from "./contexts/ModalContext";
 import EntriesContext from "./contexts/EntriesContext";
 
@@ -16,7 +16,7 @@ function App() {
         <EntriesContext>
           <Routes>
             <Route path="/" element={<Home />}>
-              <Route path="/" element={<Bookmarks />}>
+              <Route path="/" element={<BookmarksInterface />}>
                 <Route index element={<EntryList />} />
                 <Route path=":parentName" element={<FolderChild />} />
               </Route>

@@ -1,4 +1,4 @@
-export const fadeOutModal = (ref, cb) => {
+export const fadeOutModal = (ref, dispatch, eventObj) => {
   const form = ref.querySelector("form");
   form.classList.add("fade-out");
   form.addEventListener(
@@ -9,7 +9,7 @@ export const fadeOutModal = (ref, cb) => {
     { once: true }
   );
   setTimeout(() => {
-    cb(false);
+    dispatch(eventObj);
     form.classList.remove("fade-out");
   }, 500);
 };

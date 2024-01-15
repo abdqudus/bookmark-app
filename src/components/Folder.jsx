@@ -4,6 +4,7 @@ import Option from "../images/options.png";
 import FolderImg2 from "../images/folder2.png";
 import { useState } from "react";
 import Options from "./Options";
+import useGetDbEntries from "../custom Hooks/useGetDbEntries";
 const Folder = ({ folder }) => {
   const [show, setShow] = useState(false);
   return (
@@ -36,7 +37,7 @@ const Folder = ({ folder }) => {
         >
           <img src={Option} alt="" />
         </button>
-        <Options show={show} folder={folder} />
+        <Options show={show} setShow={setShow} folder={folder} />
       </div>
     </div>
   );

@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 const useOpenModal = () => {
-  const [isNewFolderOpen, setIsNewFolderOpen] = useState(false);
+  const [isNewFolder, setIsNewFolder] = useState(false);
 
-  return { isNewFolderOpen, setIsNewFolderOpen };
+  return { isNewFolder, setIsNewFolder };
 };
 export default useOpenModal;

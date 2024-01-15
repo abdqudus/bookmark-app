@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Options from "./Options";
 import Option from "../images/options.png";
-import useGetEntries from "../custom Hooks/useGetEntries";
 const BookMarkLink = ({ entry }) => {
   const [show, setShow] = useState(false);
   const address = entry.address.startsWith("http")
@@ -31,11 +30,7 @@ const BookMarkLink = ({ entry }) => {
           >
             <img src={Option} alt="" />
           </button>
-          <Options
-            show={show}
-            folder={entry}
-            
-          />
+          <Options show={show} folder={entry} />
         </div>
       </div>
     </>

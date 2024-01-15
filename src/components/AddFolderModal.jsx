@@ -8,12 +8,11 @@ import useModalContext from "../custom Hooks/useModalContext";
 import useGetEntries from "../custom Hooks/useGetEntries";
 
 const AddFolderModal = () => {
-  const setEntries = useGetEntries();
+  const { setEntries } = useGetEntries();
 
   const [folderName, setFolderName] = useState({ value: "" });
 
-  const { isNewFolderOpen, setIsNewFolderOpen } = useModalContext();
-
+  const { isNewFolder, dispatch, isRenameFolder } = useModalContext();
   const { db } = useConnectToDb();
 
   const inputRef = useRef();
@@ -22,16 +21,32 @@ const AddFolderModal = () => {
 
   const modalRef = useRef();
 
-  const display = isNewFolderOpen ? "flex fade-in" : "hidden";
+  const display = isNewFolder || isRenameFolder ? "flex fade-in" : "hidden";
 
-  const handleSaveBookmark = () => {
+  const handleSaveFolder = () => {
     const entry = formatEntry({ name: folderName.value, parent: parentName });
+    if (entry) {
+      addToStore(db, entry);
+      setEntries((prev) => [...prev, entry]);
+    }
 
-    addToStore(db, entry);
+    closeModal();
+  };
 
-    fadeOutModal(modalRef.current, setIsNewFolderOpen);
-
-    setEntries((prev) => [...prev, entry]);
+  const closeModal = () => {
+    if (isNewFolder) {
+      const eventObj = {
+        type: "new folder",
+        name: "isNewFolder",
+      };
+      fadeOutModal(modalRef.current, dispatch, eventObj);
+    } else {
+      const eventObj = {
+        type: "rename folder",
+        name: "isRenameFolder",
+      };
+      fadeOutModal(modalRef.current, dispatch, eventObj);
+    }
   };
   if (inputRef.current) {
     setTimeout(() => {
@@ -49,11 +64,9 @@ const AddFolderModal = () => {
         className="max-w-[300px] scale-0 w-[90%] p-4 rounded-2xl  bg-white"
       >
         <div className="flex justify-between text-black font-semibold items-center smallest:flex-col-reverse smallest:items-start">
-          <h2>Create New Folder</h2>
+          <h2>{isRenameFolder ? "Rename " : "Create New "} Folder</h2>
           <span
-            onClick={() => {
-              fadeOutModal(modalRef.current, setIsNewFolderOpen);
-            }}
+            onClick={() => closeModal()}
             className="smallest:ml-auto cursor-pointer "
           >
             X
@@ -74,7 +87,7 @@ const AddFolderModal = () => {
           />
         </div>
         <button
-          onClick={handleSaveBookmark}
+          onClick={handleSaveFolder}
           className="outline-[#7FC7D9] mt-3 float-right bg-[#0F1035] scale-90 hover:scale-100 transition outline outline-offset-1 rounded-lg px-4 py-1 text-lg ml-auto text-[#7FC7D9] tracking-widest font-semibold"
         >
           Done
