@@ -2,7 +2,7 @@ import Folder from "../components/Folder";
 import BookMarkLink from "../components/BookMarkLink";
 import useGetEntries from "../custom Hooks/useGetEntries";
 
-const EntryList = () => {
+const HomePageEntryList = () => {
   const { entries } = useGetEntries();
   const filteredEntries = entries.filter((entry) => entry.isTopMost);
   return (
@@ -21,4 +21,4 @@ const EntryList = () => {
   );
 };
 
-export default EntryList;
+export default HomePageEntryList;

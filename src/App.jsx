@@ -2,10 +2,10 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { DB } from "..";
 import Home from "./Routes/Home";
 import FolderChild from "./components/FolderChild";
-import EntryList from "./Routes/EntryList";
 import BookmarksInterface from "./components/Bookmarks";
 import ModalContext from "./contexts/ModalContext";
 import EntriesContext from "./contexts/EntriesContext";
+import HomePageEntryList from "./Routes/HomePageEntryList";
 
 DB();
 
@@ -17,8 +17,9 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />}>
               <Route path="/" element={<BookmarksInterface />}>
-                <Route index element={<EntryList />} />
+                <Route index element={<HomePageEntryList />} />
                 <Route path=":parentName" element={<FolderChild />} />
+                <Route path='*' element={<FolderChild />} />
               </Route>
             </Route>
           </Routes>

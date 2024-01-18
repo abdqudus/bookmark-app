@@ -5,13 +5,14 @@ export const ModalsContext = createContext(null);
 
 export const DispatchContext = createContext(null);
 
+
 const initialState = {
   isNewBookmark: false,
   isNewFolder: false,
   isRenameBookmark: false,
   isRenameFolder: false,
-  foldersArray: [],
-  bookmarksArray: [],
+  dispatcherId: undefined,
+  move: false
 };
 
 const modalReducer = (modalState, action) => {
@@ -29,15 +30,16 @@ const modalReducer = (modalState, action) => {
     case "rename folder": {
       return getModalState(modalState, action);
     }
-    case "add bookmark": {
+    case 'move bookmark': {
+      return {}
     }
-
     default:
       break;
   }
 };
 const ModalContext = ({ children }) => {
   const [modalState, dispatch] = useReducer(modalReducer, initialState);
+
 
   return (
     <ModalsContext.Provider value={modalState}>

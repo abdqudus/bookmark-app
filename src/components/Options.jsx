@@ -1,24 +1,36 @@
+import { useParams } from "react-router-dom";
 import useConnectToDb from "../custom Hooks/useConnectToDb";
 import useGetEntries from "../custom Hooks/useGetEntries";
 import useModalContext from "../custom Hooks/useModalContext";
 import { removeFromStore } from "../utils/removeFromStore";
 import AddFolderModal from "./AddFolderModal";
 
-const Options = ({ folder, show, setShow }) => {
+const Options = ({ entry, showOptions, setShowOptions }) => {
   const { dispatch } = useModalContext();
   const { entries, setEntries } = useGetEntries();
-  const visibility = show ? "show" : "";
+  const { parentName } = useParams();
+  const visibility = showOptions ? "show" : "";
 
   const { db } = useConnectToDb();
 
-  const handleDelete = (e) => {
-    setEntries(entries.filter((e) => e.id !== folder.id));
-    removeFromStore(db, folder.id);
+  const handleDelete = () => {
+    setEntries(entries.filter((e) => e.id !== entry.id));
+    removeFromStore(db, entry.id);
   };
-  const handleRename = () => {
-    dispatch({ type: "rename folder", name: "isRenameFolder" });
-    setShow(false);
+
+  const handleRenameClick = () => {
+
+    if (entry.type === 'folder') {
+      dispatch({ type: "rename folder", name: "isRenameFolder", id: entry.id });
+    } else {
+      dispatch({ type: "rename bookmark", name: "isRenameBookmark", id: entry.id });
+    }
+
+    setShowOptions(false)
   };
+
+  const handleMoveClick = () => { console.log(parentName) }
+
   return (
     <div
       onClick={(e) => {
@@ -33,12 +45,12 @@ const Options = ({ folder, show, setShow }) => {
         Delete
       </p>
       <p
-        onClick={handleRename}
+        onClick={handleRenameClick}
         className="cursor-pointer hover:bg-[#0F1035] hover:text-white  p-2 "
       >
         Rename
       </p>
-      <p className="cursor-pointer hover:bg-[#0F1035] hover:text-white  p-2 ">
+      <p onClick={handleMoveClick} className="cursor-pointer hover:bg-[#0F1035] hover:text-white  p-2 ">
         Move
       </p>
       <p className="cursor-pointer hover:bg-[#0F1035] hover:text-white  p-2 rounded-b-xl">

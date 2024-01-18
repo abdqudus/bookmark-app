@@ -6,20 +6,20 @@ const useModalContext = () => {
   const {
     isNewBookmark,
     isNewFolder,
-    bookmarksArray,
-    foldersArray,
+    move,
     isRenameBookmark,
+    dispatcherId,
     isRenameFolder,
   } = modalsContext;
   const dispatch = useContext(DispatchContext);
   return {
     isNewBookmark,
     isNewFolder,
-    bookmarksArray,
-    foldersArray,
+    move,
     isRenameBookmark,
     isRenameFolder,
     dispatch,
+    dispatcherId
   };
 };
 

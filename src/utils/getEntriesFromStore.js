@@ -1,6 +1,5 @@
 import { makeTransaction } from "../..";
 import { getRequest } from "./getRequest";
-
 export const getEntriesFromStore = (setNewEntries) => {
   const entriesArray = [];
   let store;

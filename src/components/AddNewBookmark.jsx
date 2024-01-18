@@ -1,52 +1,22 @@
 import { useRef } from "react";
-import { fadeOutModal } from "../utils/fadeModalOut";
-import useHandleFormChange from "../custom Hooks/useHandleFormChange";
-import { addToStore } from "../utils/addToStore";
-import { formatEntry } from "../utils/formatEntry";
-import { useParams } from "react-router-dom";
 import Cancel from "../images/cancel.png";
-import useConnectToDb from "../custom Hooks/useConnectToDb";
 import useModalContext from "../custom Hooks/useModalContext";
-import useGetEntries from "../custom Hooks/useGetEntries";
+import useHandleBookmarkFormChange from "../custom Hooks/useHandleBookmarkFormChange";
 
 const AddNewBookmark = () => {
-  const { setEntries } = useGetEntries();
-  const { isNewBookmark, isRenameBookmark, dispatch } = useModalContext();
-  const display = isNewBookmark || isRenameBookmark ? "flex fade-in" : "hidden";
-  const { db } = useConnectToDb();
-  const { parentName } = useParams();
-  const nameRef = useRef();
-  const { bookmark, handleChange } = useHandleFormChange();
+
   const dialogRef = useRef();
 
-  const closeModal = () => {
-    if (isNewBookmark) {
-      const eventObj = {
-        type: "new bookmark",
-        name: "isNewBookmark",
-      };
-      fadeOutModal(dialogRef.current, dispatch, eventObj);
-    } else {
-      const eventObj = {
-        type: "rename bookmark",
-        name: "isRenameBookmark",
-      };
-      fadeOutModal(dialogRef.current, dispatch, eventObj);
-    }
-  };
-  const handleSaveBookmark = () => {
-    const entry = formatEntry({
-      name: bookmark.name,
-      parent: parentName,
-      address: bookmark.address,
-      type: "bookmark",
-    });
-    if (entry) {
-      addToStore(db, entry);
-      setEntries((prev) => [...prev, entry]);
-    }
-    closeModal();
-  };
+  const { handleChange, bookmark, closeModal, handleSaveBookmark } = useHandleBookmarkFormChange()
+
+  const { isNewBookmark, isRenameBookmark } = useModalContext();
+
+  const display = isNewBookmark || isRenameBookmark ? "flex fade-in" : "hidden";
+
+  const nameRef = useRef();
+
+
+
   return (
     <dialog
       ref={dialogRef}
@@ -59,7 +29,7 @@ const AddNewBookmark = () => {
         <div className="flex justify-between text-black font-semibold items-center smallest:flex-col-reverse smallest:items-start">
           <h2>Create New Bookmark</h2>
           <span
-            onClick={closeModal}
+            onClick={() => closeModal(dialogRef)}
             className="smallest:ml-auto cursor-pointer "
           >
             <img src={Cancel} alt="" />
@@ -93,7 +63,7 @@ const AddNewBookmark = () => {
           />
         </div>
         <button
-          onClick={handleSaveBookmark}
+          onClick={() => handleSaveBookmark(dialogRef)}
           className="outline-[#7FC7D9] mt-3 float-right bg-[#0F1035] scale-90 hover:scale-100 transition outline outline-offset-1 rounded-lg px-4 py-1 text-lg ml-auto text-[#7FC7D9] tracking-widest font-semibold"
         >
           Done

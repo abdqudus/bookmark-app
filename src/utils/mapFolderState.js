@@ -1,4 +1,5 @@
 export const getModalState = (modalState, action) => {
-  const { name } = action;
-  return { ...modalState, [name]: !modalState[name] };
+  const { name, id } = action;
+  return { ...modalState, [name]: !modalState[name], dispatcherId: id };
 };
+// const

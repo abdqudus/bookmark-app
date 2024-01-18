@@ -2,7 +2,9 @@ import { useState } from "react";
 import Options from "./Options";
 import Option from "../images/options.png";
 const BookMarkLink = ({ entry }) => {
-  const [show, setShow] = useState(false);
+
+  const [showOptions, setShowOptions] = useState(false);
+
   const address = entry.address.startsWith("http")
     ? entry.address
     : `https://${entry.address}`;
@@ -25,12 +27,12 @@ const BookMarkLink = ({ entry }) => {
         </div>
         <div className="">
           <button
-            onClick={() => setShow(!show)}
+            onClick={() => setShowOptions(!showOptions)}
             className="cursor-pointer self-start mt-[10px]"
           >
             <img src={Option} alt="" />
           </button>
-          <Options show={show} folder={entry} />
+          <Options showOptions={showOptions} setShowOptions={setShowOptions} entry={entry} />
         </div>
       </div>
     </>
