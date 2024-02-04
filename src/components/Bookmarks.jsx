@@ -7,6 +7,8 @@ const BookmarksInterface = () => {
   const { move, dispatch } = useModalContext();
   const { store } = useConnectToDb();
 
+
+
   return (
     <div className=" bg-white rounded-2xl overflow-x-hidden relative  text-[#0F1035]">
       <div

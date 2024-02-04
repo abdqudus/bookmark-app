@@ -18,8 +18,8 @@ function App() {
             <Route path="/" element={<Home />}>
               <Route path="/" element={<BookmarksInterface />}>
                 <Route index element={<HomePageEntryList />} />
-                <Route path=":parentName" element={<FolderChild />} />
-                <Route path='*' element={<FolderChild />} />
+                <Route path=":parent/*" element={<FolderChild />} />
+
               </Route>
             </Route>
           </Routes>

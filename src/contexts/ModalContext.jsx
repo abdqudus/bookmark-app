@@ -1,10 +1,14 @@
-import { createContext, useReducer, useState } from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
 import { getModalState } from "../utils/mapFolderState";
+import { getParentFromUrl } from "../utils/getParentFromPath";
+import { useNavigate } from "react-router-dom";
 
 export const ModalsContext = createContext(null);
 
 export const DispatchContext = createContext(null);
 
+const url = new URL(window.location.href);
+const parent = getParentFromUrl(url)
 
 const initialState = {
   isNewBookmark: false,
@@ -12,11 +16,14 @@ const initialState = {
   isRenameBookmark: false,
   isRenameFolder: false,
   dispatcherId: undefined,
-  move: false
+  move: false,
+  parent,
+  wind: '/'
 };
 
+
 const modalReducer = (modalState, action) => {
-  const { type } = action;
+  const { type, payload } = action;
   switch (type) {
     case "new bookmark": {
       return getModalState(modalState, action);
@@ -30,8 +37,11 @@ const modalReducer = (modalState, action) => {
     case "rename folder": {
       return getModalState(modalState, action);
     }
-    case 'move bookmark': {
-      return {}
+    case 'parent': {
+      return { ...modalState, parent: payload }
+    }
+    case 'window': {
+      return { ...modalState, wind: payload }
     }
     default:
       break;
@@ -39,6 +49,7 @@ const modalReducer = (modalState, action) => {
 };
 const ModalContext = ({ children }) => {
   const [modalState, dispatch] = useReducer(modalReducer, initialState);
+
 
 
   return (

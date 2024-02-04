@@ -4,17 +4,24 @@ import Option from "../images/options.png";
 import FolderImg2 from "../images/folder2.png";
 import { useState } from "react";
 import Options from "./Options";
+import useModalContext from "../custom Hooks/useModalContext";
 const Folder = ({ folder }) => {
+
   const [showOptions, setShowOptions] = useState(false);
-  const url = new URL(window.location.href);
-  const path = url.pathname;
-  const pathArr = path.split('/')
-  console.log(pathArr[pathArr.length - 1])
-  const { parentName } = useParams()
-  console.log(parentName)
+  const { dispatch, wind, parent } = useModalContext()
+  const { mainParent } = useParams()
+
+
+  const handleClick = () => {
+    const a = window.location.pathname.split('/')
+    dispatch({ type: 'parent', payload: folder.name })
+    dispatch({ type: 'window', payload: window.location.pathname })
+  }
+  const link = mainParent === parent ? folder.name : `${wind.slice(1)}/${folder.name}`
+
   return (
     <div className="flex hover:border-[#0F1035] hover:border group justify-between px-2 cursor-pointer">
-      <Link to={`${folder.name}`} className="w-full block">
+      <Link onClick={handleClick} to={`${folder.name}`} className="w-full block">
         <div className="flex flex-grow relative gap-4 cursor-pointer items-center mb-4  py-2 px-4">
           <div className="w-[50px] h-[50px] rounded-lg p-1 border border-[#0F1035] ">
             <img

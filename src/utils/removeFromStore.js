@@ -1,9 +1,8 @@
 import { makeTransaction } from "../..";
 
-export const removeFromStore = (db, entry) => {
+export const removeFromStore = (db, entriesArray) => {
   const transaction = makeTransaction(db, "readwrite");
 
   const store = transaction.objectStore("Bookmarks");
-
-  store.delete(entry);
+  entriesArray.forEach((e) => store.delete(e.id));
 };

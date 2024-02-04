@@ -10,6 +10,7 @@ const useModalContext = () => {
     isRenameBookmark,
     dispatcherId,
     isRenameFolder,
+    parent, wind
   } = modalsContext;
   const dispatch = useContext(DispatchContext);
   return {
@@ -19,7 +20,8 @@ const useModalContext = () => {
     isRenameBookmark,
     isRenameFolder,
     dispatch,
-    dispatcherId
+    dispatcherId,
+    parent, wind
   };
 };
 

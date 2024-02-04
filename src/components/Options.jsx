@@ -7,15 +7,17 @@ import AddFolderModal from "./AddFolderModal";
 
 const Options = ({ entry, showOptions, setShowOptions }) => {
   const { dispatch } = useModalContext();
+
   const { entries, setEntries } = useGetEntries();
-  const { parentName } = useParams();
+
   const visibility = showOptions ? "show" : "";
 
   const { db } = useConnectToDb();
 
   const handleDelete = () => {
-    setEntries(entries.filter((e) => e.id !== entry.id));
-    removeFromStore(db, entry.id);
+    const toBeRemoved = entries.filter(e => e.path.includes(entry.name))
+    setEntries(entries.filter(e => !e.path.includes(entry.name)));
+    removeFromStore(db, toBeRemoved);
   };
 
   const handleRenameClick = () => {

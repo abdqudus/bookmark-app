@@ -11,7 +11,7 @@ const useHandleFolderForm = () => {
 
     const { setEntries, entries } = useGetEntries();
 
-    const { isNewFolder, dispatch, dispatcherId, isRenameFolder } = useModalContext();
+    const { isNewFolder, dispatch, dispatcherId, isRenameFolder, parent } = useModalContext();
 
     const entry = entries.find(e => e.id == dispatcherId)
 
@@ -29,9 +29,9 @@ const useHandleFolderForm = () => {
 
     const { db } = useConnectToDb();
 
-    const { parentName } = useParams();
 
     const handleSaveFolder = (modalRef) => {
+
 
         if (isRenameFolder) {
             const newEntry = entries.map(e => {
@@ -44,7 +44,7 @@ const useHandleFolderForm = () => {
             setEntries(newEntry)
 
         } else {
-            const entry = formatEntry({ name: folderName.value, parent: parentName });
+            const entry = formatEntry({ name: folderName.value, parent, });
             if (entry) {
                 addToStore(db, entry);
                 setEntries((prev) => [...prev, entry]);
@@ -70,7 +70,7 @@ const useHandleFolderForm = () => {
             fadeOutModal(modalRef.current, dispatch, eventObj);
         }
     };
-    return { handleSaveFolder, handleChange, folderName }
+    return { handleSaveFolder, handleChange, folderName, closeModal }
 }
 
 export default useHandleFolderForm

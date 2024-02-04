@@ -74,7 +74,6 @@ const useHandleBookmarkFormChange = () => {
         name,
         parent: parentName,
         address,
-        type: "bookmark",
       });
       if (entry) {
         addToStore(db, entry);

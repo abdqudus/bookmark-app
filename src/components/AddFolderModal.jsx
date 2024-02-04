@@ -6,7 +6,7 @@ const AddFolderModal = () => {
 
   const { isNewFolder, isRenameFolder } = useModalContext();
 
-  const { handleSaveFolder, handleChange, folderName } = useHandleFolderForm()
+  const { handleSaveFolder, handleChange, folderName, closeModal } = useHandleFolderForm()
 
   const inputRef = useRef();
 
