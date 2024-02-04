@@ -1,14 +1,30 @@
 import AddFolderModal from "./AddFolderModal";
 import useConnectToDb from "../custom Hooks/useConnectToDb";
 import { Outlet } from "react-router-dom";
-import useModalContext from "../custom Hooks/useModalContext";
+import useModalContext from "../custom Hooks/useStoreContext";
+import { getParentFromUrl } from "../utils/getParentFromPath";
+import useGetEntries from "../custom Hooks/useGetEntries";
+import { MoveEntry } from "../utils/updateStore";
 
 const BookmarksInterface = () => {
-  const { move, dispatch } = useModalContext();
+  const { dispatch, isMove, location } = useModalContext();
+  const { db } = useConnectToDb()
+  const { setEntries, entries } = useGetEntries()
   const { store } = useConnectToDb();
 
-
-
+  const handleMoveHere = () => {
+    const parent = getParentFromUrl(window.location)
+    setEntries(prev => prev.map(e => {
+      if (e.id == location.id) {
+        return { ...e, parent }
+      } else {
+        return e
+      }
+    }))
+    const entry = entries.find(e => e.id == location.id)
+    dispatch({ type: 'move' });
+    MoveEntry(db, entry, parent)
+  }
   return (
     <div className=" bg-white rounded-2xl overflow-x-hidden relative  text-[#0F1035]">
       <div
@@ -21,7 +37,7 @@ const BookmarksInterface = () => {
         <p className="flex-grow">New folder</p>
       </div>
       <Outlet />
-      {move && <button className="absolute bottom-0 w-full bg-red-300 p-3">Move Here</button>}
+      {isMove && <button onClick={handleMoveHere} className="absolute bottom-0 w-full bg-[#0F1035] text-white p-3">Move Here</button>}
       <AddFolderModal store={store} />
     </div>
   );

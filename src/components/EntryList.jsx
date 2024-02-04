@@ -1,12 +1,12 @@
 import Folder from './Folder';
 import BookMarkLink from './BookMarkLink';
 import useGetEntries from '../custom Hooks/useGetEntries';
-import useModalContext from '../custom Hooks/useModalContext';
+import useModalContext from '../custom Hooks/useStoreContext';
 import { useParams } from 'react-router-dom';
 
 const EntryList = () => {
     const { entries } = useGetEntries()
-    const { parent } = useModalContext()
+    const { parent, isMove } = useModalContext()
     let filteredEntries = entries.filter((entry) => entry.parent == parent);
 
 

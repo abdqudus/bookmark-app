@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import Cancel from "../images/cancel.png";
-import useModalContext from "../custom Hooks/useModalContext";
+import useModalContext from "../custom Hooks/useStoreContext";
 import useHandleBookmarkFormChange from "../custom Hooks/useHandleBookmarkFormChange";
 
 const AddNewBookmark = () => {

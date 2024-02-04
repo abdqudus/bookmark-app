@@ -1,14 +1,8 @@
 import { Outlet } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
 import AddBtn from "../components/NewBookmark";
-import { useEffect, useState } from "react";
-import { getEntriesFromStore } from "../utils/getEntriesFromStore";
 
 const Home = () => {
-  const [entries, setEntries] = useState([]);
-  useEffect(() => {
-    getEntriesFromStore(setEntries);
-  }, []);
 
 
 

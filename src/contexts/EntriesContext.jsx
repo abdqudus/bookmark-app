@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useState } from "react";
 import { getEntriesFromStore } from "../utils/getEntriesFromStore";
-import useModalContext from "../custom Hooks/useModalContext";
+import useModalContext from "../custom Hooks/useStoreContext";
+import { getParentFromUrl } from "../utils/getParentFromPath";
 export const EntryContext = createContext(null);
 const EntriesContext = ({ children }) => {
   const [entries, setEntries] = useState([]);
@@ -11,9 +12,7 @@ const EntriesContext = ({ children }) => {
 
   useEffect(() => {
     const handlePopState = () => {
-      const parentArray = window.location.pathname.split('/');
-      const parent = parentArray[parentArray.length - 1]
-      dispatch({ type: 'parent', payload: parent })
+      dispatch({ type: 'parent', payload: getParentFromUrl(window.location) })
 
     };
     window.addEventListener('popstate', handlePopState);
@@ -21,7 +20,7 @@ const EntriesContext = ({ children }) => {
     return () => {
       window.removeEventListener('popstate', handlePopState);
     };
-  }, [])
+  }, [dispatch])
   return (
     <EntryContext.Provider value={{ entries, setEntries }}>
       {children}

@@ -1,27 +1,30 @@
 import { useContext } from "react";
-import { DispatchContext, ModalsContext } from "../contexts/ModalContext";
+import { DispatchContext, StoreContext } from "../contexts/Store";
 
 const useModalContext = () => {
-  const modalsContext = useContext(ModalsContext);
+  const modalsContext = useContext(StoreContext);
+
   const {
     isNewBookmark,
     isNewFolder,
-    move,
+    isMove,
+    location,
     isRenameBookmark,
     dispatcherId,
     isRenameFolder,
-    parent, wind
+    parent,
   } = modalsContext;
   const dispatch = useContext(DispatchContext);
   return {
     isNewBookmark,
+    location,
     isNewFolder,
-    move,
+    isMove,
     isRenameBookmark,
     isRenameFolder,
     dispatch,
     dispatcherId,
-    parent, wind
+    parent,
   };
 };
 

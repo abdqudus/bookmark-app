@@ -4,20 +4,16 @@ import Option from "../images/options.png";
 import FolderImg2 from "../images/folder2.png";
 import { useState } from "react";
 import Options from "./Options";
-import useModalContext from "../custom Hooks/useModalContext";
+import useModalContext from "../custom Hooks/useStoreContext";
 const Folder = ({ folder }) => {
 
   const [showOptions, setShowOptions] = useState(false);
-  const { dispatch, wind, parent } = useModalContext()
-  const { mainParent } = useParams()
+  const { dispatch } = useModalContext()
 
 
   const handleClick = () => {
-    const a = window.location.pathname.split('/')
     dispatch({ type: 'parent', payload: folder.name })
-    dispatch({ type: 'window', payload: window.location.pathname })
   }
-  const link = mainParent === parent ? folder.name : `${wind.slice(1)}/${folder.name}`
 
   return (
     <div className="flex hover:border-[#0F1035] hover:border group justify-between px-2 cursor-pointer">

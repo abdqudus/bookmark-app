@@ -1,9 +1,8 @@
-import { useParams } from "react-router-dom";
 import useConnectToDb from "../custom Hooks/useConnectToDb";
 import useGetEntries from "../custom Hooks/useGetEntries";
-import useModalContext from "../custom Hooks/useModalContext";
+import useModalContext from "../custom Hooks/useStoreContext";
+import { getParentFromUrl } from "../utils/getParentFromPath";
 import { removeFromStore } from "../utils/removeFromStore";
-import AddFolderModal from "./AddFolderModal";
 
 const Options = ({ entry, showOptions, setShowOptions }) => {
   const { dispatch } = useModalContext();
@@ -13,10 +12,14 @@ const Options = ({ entry, showOptions, setShowOptions }) => {
   const visibility = showOptions ? "show" : "";
 
   const { db } = useConnectToDb();
+  // console.log(entries)
 
   const handleDelete = () => {
+
     const toBeRemoved = entries.filter(e => e.path.includes(entry.name))
+
     setEntries(entries.filter(e => !e.path.includes(entry.name)));
+
     removeFromStore(db, toBeRemoved);
   };
 
@@ -31,8 +34,12 @@ const Options = ({ entry, showOptions, setShowOptions }) => {
     setShowOptions(false)
   };
 
-  const handleMoveClick = () => { console.log(parentName) }
-
+  const handleMoveClick = () => {
+    dispatch({ type: 'move' });
+    dispatch({ type: 'move-to', payload: entry });
+    setShowOptions(false)
+  }
+  console.log(entries)
   return (
     <div
       onClick={(e) => {
@@ -52,11 +59,8 @@ const Options = ({ entry, showOptions, setShowOptions }) => {
       >
         Rename
       </p>
-      <p onClick={handleMoveClick} className="cursor-pointer hover:bg-[#0F1035] hover:text-white  p-2 ">
+      <p onClick={handleMoveClick} className="cursor-pointer hover:bg-[#0F1035] hover:text-white  p-2 rounded-b-xl">
         Move
-      </p>
-      <p className="cursor-pointer hover:bg-[#0F1035] hover:text-white  p-2 rounded-b-xl">
-        Copy
       </p>
     </div>
   );

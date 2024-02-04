@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import useModalContext from "../custom Hooks/useModalContext";
+import useModalContext from "../custom Hooks/useStoreContext";
 import useHandleFolderForm from "../custom Hooks/useHandleFolderForm";
 
 const AddFolderModal = () => {

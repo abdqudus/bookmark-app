@@ -1,5 +1,5 @@
 import AddNewBookmark from "./AddNewBookmark";
-import useModalContext from "../custom Hooks/useModalContext";
+import useModalContext from "../custom Hooks/useStoreContext";
 
 const AddBtn = () => {
   // const { setIsNewBookmark } = useModalContext();

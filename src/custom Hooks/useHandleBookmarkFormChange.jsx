@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import useModalContext from "./useModalContext";
+import useModalContext from "./useStoreContext";
 import { addToStore, updateEntry } from "../utils/updateStore";
 import useGetEntries from "./useGetEntries";
 import useConnectToDb from "./useConnectToDb";

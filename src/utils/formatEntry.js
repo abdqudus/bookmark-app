@@ -11,7 +11,7 @@ export const formatEntry = ({
         name,
         parent,
         type,
-        path: `${document.location.pathname.slice(1)}/${name}`,
+        path: document.location.pathname,
       };
       if (parent) {
         return { ...obj, isTopMost: false };
@@ -19,7 +19,6 @@ export const formatEntry = ({
         return {
           ...obj,
           isTopMost: true,
-          path: `${document.location.pathname}${name}`,
         };
       }
     } else {

@@ -1,9 +1,9 @@
-import { createContext, useEffect, useReducer, useState } from "react";
+import { createContext, useReducer } from "react";
 import { getModalState } from "../utils/mapFolderState";
 import { getParentFromUrl } from "../utils/getParentFromPath";
 import { useNavigate } from "react-router-dom";
 
-export const ModalsContext = createContext(null);
+export const StoreContext = createContext(null);
 
 export const DispatchContext = createContext(null);
 
@@ -16,13 +16,13 @@ const initialState = {
   isRenameBookmark: false,
   isRenameFolder: false,
   dispatcherId: undefined,
-  move: false,
+  isMove: false,
   parent,
-  wind: '/'
+  moveTo: ''
 };
 
 
-const modalReducer = (modalState, action) => {
+const storeReducer = (modalState, action) => {
   const { type, payload } = action;
   switch (type) {
     case "new bookmark": {
@@ -40,24 +40,27 @@ const modalReducer = (modalState, action) => {
     case 'parent': {
       return { ...modalState, parent: payload }
     }
-    case 'window': {
-      return { ...modalState, wind: payload }
+    case 'move-to': {
+      return { ...modalState, location: payload }
+    }
+    case 'move': {
+      return { ...modalState, isMove: !modalState.isMove }
     }
     default:
       break;
   }
 };
 const ModalContext = ({ children }) => {
-  const [modalState, dispatch] = useReducer(modalReducer, initialState);
+  const [modalState, dispatch] = useReducer(storeReducer, initialState);
 
 
 
   return (
-    <ModalsContext.Provider value={modalState}>
+    <StoreContext.Provider value={modalState}>
       <DispatchContext.Provider value={dispatch}>
         {children}
       </DispatchContext.Provider>
-    </ModalsContext.Provider>
+    </StoreContext.Provider>
   );
 };
 

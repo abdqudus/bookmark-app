@@ -4,9 +4,9 @@ import useGetEntries from "../custom Hooks/useGetEntries";
 
 const HomePageEntryList = () => {
   const { entries } = useGetEntries();
-  const filteredEntries = entries.filter((entry) => entry.isTopMost);
+  const filteredEntries = entries.filter((entry) => entry.parent == '');
   return (
-    <div className=" ">
+    <div>
       {filteredEntries
         .filter((entry) => entry.type === "folder")
         .map((folder) => (

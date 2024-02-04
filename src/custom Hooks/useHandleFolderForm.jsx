@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import useConnectToDb from './useConnectToDb';
-import useModalContext from './useModalContext';
+import useModalContext from './useStoreContext';
 import useGetEntries from './useGetEntries';
 import { useParams } from 'react-router-dom';
 import { addToStore, updateEntry } from '../utils/updateStore';
