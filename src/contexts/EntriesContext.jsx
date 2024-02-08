@@ -5,10 +5,11 @@ import { getParentFromUrl } from "../utils/getParentFromPath";
 export const EntryContext = createContext(null);
 const EntriesContext = ({ children }) => {
   const [entries, setEntries] = useState([]);
+  const [isEntriesLoaded, setIsEntriesLoaded] = useState(false);
   const { dispatch } = useStoreContext();
 
   useEffect(() => {
-    getEntriesFromStore(setEntries);
+    getEntriesFromStore(setEntries, setIsEntriesLoaded);
 
   }, []);
 
@@ -24,7 +25,7 @@ const EntriesContext = ({ children }) => {
     };
   }, [dispatch])
   return (
-    <EntryContext.Provider value={{ entries, setEntries }}>
+    <EntryContext.Provider value={{ entries, setEntries, isEntriesLoaded }}>
       {children}
     </EntryContext.Provider>
   );

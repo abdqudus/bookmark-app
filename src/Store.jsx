@@ -18,6 +18,7 @@ const initialState = {
   isMove: false,
   parent,
   moveTo: '',
+  input: ''
 };
 
 
@@ -44,6 +45,9 @@ const storeReducer = (storeState, action) => {
     }
     case 'move': {
       return { ...storeState, isMove: !storeState.isMove }
+    }
+    case 'search': {
+      return { ...storeState, input: payload }
     }
     default:
       break;

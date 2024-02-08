@@ -13,6 +13,8 @@ const Folder = ({ folder }) => {
 
   const handleClick = () => {
     dispatch({ type: 'parent', payload: folder.name })
+    dispatch({ type: 'search', payload: '' })
+
   }
 
   return (

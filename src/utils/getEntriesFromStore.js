@@ -1,6 +1,6 @@
 import { makeTransaction } from "../..";
 import { getRequest } from "./getRequest";
-export const getEntriesFromStore = (setNewEntries) => {
+export const getEntriesFromStore = (setNewEntries, setIsEntriesLoaded) => {
   const entriesArray = [];
   let store;
   const request = getRequest();
@@ -21,6 +21,7 @@ export const getEntriesFromStore = (setNewEntries) => {
           cursor.continue();
         } else {
           setNewEntries(entriesArray);
+          setIsEntriesLoaded(true);
         }
       };
     }

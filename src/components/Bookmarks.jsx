@@ -5,9 +5,10 @@ import useStoreContext from "../custom Hooks/useStoreContext";
 import { getParentFromUrl } from "../utils/getParentFromPath";
 import useGetEntries from "../custom Hooks/useGetEntries";
 import { MoveEntry } from "../utils/updateStore";
+import SearchResult from "./SearchResult";
 
 const BookmarksInterface = () => {
-  const { dispatch, isMove, location } = useStoreContext();
+  const { dispatch, isMove, location, input } = useStoreContext();
   const { db } = useConnectToDb()
   const { setEntries, entries } = useGetEntries()
   const { store } = useConnectToDb();
@@ -24,6 +25,9 @@ const BookmarksInterface = () => {
     const entry = entries.find(e => e.id == location.id)
     dispatch({ type: 'move' });
     MoveEntry(db, entry, parent)
+  }
+  if (input) {
+    return <SearchResult />
   }
   return (
     <div className=" bg-white rounded-2xl overflow-x-hidden relative  text-[#0F1035]">

@@ -13,6 +13,7 @@ const useStoreContext = () => {
     dispatcherId,
     isRenameFolder,
     parent,
+    input
   } = modalsContext;
   const dispatch = useContext(DispatchContext);
   return {
@@ -25,6 +26,7 @@ const useStoreContext = () => {
     dispatch,
     dispatcherId,
     parent,
+    input
   };
 };
 

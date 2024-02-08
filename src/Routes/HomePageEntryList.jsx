@@ -2,24 +2,17 @@ import Folder from "../components/Folder";
 import BookMarkLink from "../components/BookMarkLink";
 import useGetEntries from "../custom Hooks/useGetEntries";
 import Empty from "../components/Empty";
-import { useEffect, useState } from "react";
 
 const HomePageEntryList = () => {
-  const { entries } = useGetEntries();
-  const [isLoading, setIsLoading] = useState(true)
-
-  useEffect(() => {
-    if (entries.length > 0) {
-      setIsLoading(false)
-    }
-  }, [entries])
+  const { entries, isEntriesLoaded } = useGetEntries();
 
   const filteredEntries = entries.filter((entry) => !entry.parent);
 
 
-  if (filteredEntries.length == 0 && !isLoading) {
-    return <Empty />
+  if (filteredEntries.length == 0 && isEntriesLoaded) {
+    return <Empty header="There is nothing here yet" par='Add a bookmark/folder to this folder' />
   }
+
   return (
     <div>
       {filteredEntries

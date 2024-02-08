@@ -1,10 +1,10 @@
 import React from 'react'
 
-const Empty = () => {
+const Empty = ({ header, par }) => {
     return (
-        <div className=' h-full text-[#0F1035] flex flex-col justify-center items-center'>
-            <h1 className='text-2xl'>There is nothing here yet</h1>
-            <p>Add a bookmark/folder to this folder</p>
+        <div className=' h-full bg-white text-[#0F1035] flex flex-col justify-center items-center'>
+            <h1 className='text-2xl font-semibold'>{header}</h1>
+            <p className='px-4 text-lg font-medium text-center mt-3'>{par}</p>
         </div>
     )
 }
