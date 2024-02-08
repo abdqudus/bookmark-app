@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import useConnectToDb from './useConnectToDb';
-import useModalContext from './useStoreContext';
+import useStoreContext from './useStoreContext';
 import useGetEntries from './useGetEntries';
-import { useParams } from 'react-router-dom';
 import { addToStore, updateEntry } from '../utils/updateStore';
 import { fadeOutModal } from '../utils/fadeModalOut';
 import { formatEntry } from '../utils/formatEntry';
@@ -11,7 +10,7 @@ const useHandleFolderForm = () => {
 
     const { setEntries, entries } = useGetEntries();
 
-    const { isNewFolder, dispatch, dispatcherId, isRenameFolder, parent } = useModalContext();
+    const { isNewFolder, dispatch, dispatcherId, isRenameFolder, parent } = useStoreContext();
 
     const entry = entries.find(e => e.id == dispatcherId)
 
@@ -50,7 +49,7 @@ const useHandleFolderForm = () => {
                 setEntries((prev) => [...prev, entry]);
             }
         }
-
+        setFolderName({ value: '' })
         closeModal(modalRef);
     };
     const handleChange = e => setFolderName({ [e.target.name]: e.target.value })

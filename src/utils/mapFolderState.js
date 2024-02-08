@@ -1,5 +1,5 @@
-export const getModalState = (modalState, action) => {
+export const getStoreState = (storeState, action) => {
   const { name, id } = action;
-  return { ...modalState, [name]: !modalState[name], dispatcherId: id };
+  return { ...storeState, [name]: !storeState[name], dispatcherId: id };
 };
 // const

@@ -1,9 +1,9 @@
 import AddNewBookmark from "./AddNewBookmark";
-import useModalContext from "../custom Hooks/useStoreContext";
+import useStoreContext from "../custom Hooks/useStoreContext";
 
 const AddBtn = () => {
-  // const { setIsNewBookmark } = useModalContext();
-  const { dispatch } = useModalContext();
+  // const { setIsNewBookmark } = useStoreContext();
+  const { dispatch } = useStoreContext();
   const addBookmark = () => {
     dispatch({ type: "new bookmark", name: "isNewBookmark" });
   };

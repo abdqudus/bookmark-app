@@ -1,7 +1,6 @@
 import { createContext, useReducer } from "react";
-import { getModalState } from "../utils/mapFolderState";
-import { getParentFromUrl } from "../utils/getParentFromPath";
-import { useNavigate } from "react-router-dom";
+import { getStoreState } from "./utils/mapFolderState";
+import { getParentFromUrl } from "./utils/getParentFromPath";
 
 export const StoreContext = createContext(null);
 
@@ -18,45 +17,45 @@ const initialState = {
   dispatcherId: undefined,
   isMove: false,
   parent,
-  moveTo: ''
+  moveTo: '',
 };
 
 
-const storeReducer = (modalState, action) => {
+const storeReducer = (storeState, action) => {
   const { type, payload } = action;
   switch (type) {
     case "new bookmark": {
-      return getModalState(modalState, action);
+      return getStoreState(storeState, action);
     }
     case "new folder": {
-      return getModalState(modalState, action);
+      return getStoreState(storeState, action);
     }
     case "rename bookmark": {
-      return getModalState(modalState, action);
+      return getStoreState(storeState, action);
     }
     case "rename folder": {
-      return getModalState(modalState, action);
+      return getStoreState(storeState, action);
     }
     case 'parent': {
-      return { ...modalState, parent: payload }
+      return { ...storeState, parent: payload }
     }
     case 'move-to': {
-      return { ...modalState, location: payload }
+      return { ...storeState, location: payload }
     }
     case 'move': {
-      return { ...modalState, isMove: !modalState.isMove }
+      return { ...storeState, isMove: !storeState.isMove }
     }
     default:
       break;
   }
 };
 const ModalContext = ({ children }) => {
-  const [modalState, dispatch] = useReducer(storeReducer, initialState);
+  const [storeState, dispatch] = useReducer(storeReducer, initialState);
 
 
 
   return (
-    <StoreContext.Provider value={modalState}>
+    <StoreContext.Provider value={storeState}>
       <DispatchContext.Provider value={dispatch}>
         {children}
       </DispatchContext.Provider>

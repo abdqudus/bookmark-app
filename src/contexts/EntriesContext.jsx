@@ -1,13 +1,15 @@
 import React, { createContext, useEffect, useState } from "react";
 import { getEntriesFromStore } from "../utils/getEntriesFromStore";
-import useModalContext from "../custom Hooks/useStoreContext";
+import useStoreContext from "../custom Hooks/useStoreContext";
 import { getParentFromUrl } from "../utils/getParentFromPath";
 export const EntryContext = createContext(null);
 const EntriesContext = ({ children }) => {
   const [entries, setEntries] = useState([]);
-  const { dispatch } = useModalContext();
+  const { dispatch } = useStoreContext();
+
   useEffect(() => {
     getEntriesFromStore(setEntries);
+
   }, []);
 
   useEffect(() => {

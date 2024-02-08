@@ -1,10 +1,10 @@
 import { useRef } from "react";
-import useModalContext from "../custom Hooks/useStoreContext";
+import useStoreContext from "../custom Hooks/useStoreContext";
 import useHandleFolderForm from "../custom Hooks/useHandleFolderForm";
 
 const AddFolderModal = () => {
 
-  const { isNewFolder, isRenameFolder } = useModalContext();
+  const { isNewFolder, isRenameFolder } = useStoreContext();
 
   const { handleSaveFolder, handleChange, folderName, closeModal } = useHandleFolderForm()
 

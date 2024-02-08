@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import Cancel from "../images/cancel.png";
-import useModalContext from "../custom Hooks/useStoreContext";
+import useStoreContext from "../custom Hooks/useStoreContext";
 import useHandleBookmarkFormChange from "../custom Hooks/useHandleBookmarkFormChange";
 
 const AddNewBookmark = () => {
@@ -9,7 +9,7 @@ const AddNewBookmark = () => {
 
   const { handleChange, bookmark, closeModal, handleSaveBookmark } = useHandleBookmarkFormChange()
 
-  const { isNewBookmark, isRenameBookmark } = useModalContext();
+  const { isNewBookmark, isRenameBookmark } = useStoreContext();
 
   const display = isNewBookmark || isRenameBookmark ? "flex fade-in" : "hidden";
 

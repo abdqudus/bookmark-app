@@ -3,7 +3,7 @@ import { DB } from "..";
 import Home from "./Routes/Home";
 import FolderChild from "./components/FolderChild";
 import BookmarksInterface from "./components/Bookmarks";
-import ModalContext from "./contexts/Store";
+import ModalContext from "./Store";
 import EntriesContext from "./contexts/EntriesContext";
 import HomePageEntryList from "./Routes/HomePageEntryList";
 

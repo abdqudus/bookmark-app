@@ -11,7 +11,7 @@ const BookMarkLink = ({ entry }) => {
   return (
     <>
       <div className="flex group gap-4 cursor-pointer hover:border-[#0F1035] hover:border transition items-center mb-4  py-2 px-4">
-        <div className="basis-[50px] flex-shrink-0 h-[50px] rounded-lg p-1 border border-[#0F1035] "></div>
+        <div className="basis-[50px] text-2xl text-white flex items-center justify-center flex-shrink-0 h-[50px] rounded-full bg-gradient-to-r from-[#0F1035] to-[#7FC7D9] p-1 border "></div>
         <div className="flex-grow flex-shrink overflow-hidden ">
           <p className="medium:max-w-[250px] font-bold overflow-hidden whitespace-nowrap text-ellipsis">
             {entry.name}

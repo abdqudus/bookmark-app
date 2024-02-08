@@ -1,25 +1,21 @@
 import useConnectToDb from "../custom Hooks/useConnectToDb";
 import useGetEntries from "../custom Hooks/useGetEntries";
-import useModalContext from "../custom Hooks/useStoreContext";
-import { getParentFromUrl } from "../utils/getParentFromPath";
+import useStoreContext from "../custom Hooks/useStoreContext";
 import { removeFromStore } from "../utils/removeFromStore";
 
 const Options = ({ entry, showOptions, setShowOptions }) => {
-  const { dispatch } = useModalContext();
+  const { dispatch } = useStoreContext();
 
   const { entries, setEntries } = useGetEntries();
 
   const visibility = showOptions ? "show" : "";
 
   const { db } = useConnectToDb();
-  // console.log(entries)
 
   const handleDelete = () => {
-
-    const toBeRemoved = entries.filter(e => e.path.includes(entry.name))
-
-    setEntries(entries.filter(e => !e.path.includes(entry.name)));
-
+    const toBeRemoved = entries.filter(e => e.path.split('/').includes(entry.name) || e.name == entry.name)
+    // this is done to remove the deleted folder alondside every folder or file within it.
+    setEntries(entries.filter(entry => !toBeRemoved.some(item => item.id === entry.id)));
     removeFromStore(db, toBeRemoved);
   };
 
@@ -39,7 +35,6 @@ const Options = ({ entry, showOptions, setShowOptions }) => {
     dispatch({ type: 'move-to', payload: entry });
     setShowOptions(false)
   }
-  console.log(entries)
   return (
     <div
       onClick={(e) => {

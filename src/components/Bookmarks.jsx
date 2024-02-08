@@ -1,13 +1,13 @@
 import AddFolderModal from "./AddFolderModal";
 import useConnectToDb from "../custom Hooks/useConnectToDb";
 import { Outlet } from "react-router-dom";
-import useModalContext from "../custom Hooks/useStoreContext";
+import useStoreContext from "../custom Hooks/useStoreContext";
 import { getParentFromUrl } from "../utils/getParentFromPath";
 import useGetEntries from "../custom Hooks/useGetEntries";
 import { MoveEntry } from "../utils/updateStore";
 
 const BookmarksInterface = () => {
-  const { dispatch, isMove, location } = useModalContext();
+  const { dispatch, isMove, location } = useStoreContext();
   const { db } = useConnectToDb()
   const { setEntries, entries } = useGetEntries()
   const { store } = useConnectToDb();

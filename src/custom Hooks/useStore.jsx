@@ -1,15 +1,9 @@
 import { useEffect, useState } from "react";
+import { getEntriesFromStore } from "../utils/getEntriesFromStore";
 
 const useStore = () => {
   const [entries, setEntries] = useState([]);
-  const [isJustInitialized, setIJustInitialized] = useState(true);
-  useEffect(() => {
-    let allow;
-    if (db && !isJustInitialized) {
-      addToStore(db, entries[entries.length - 1]);
-    }
-   
-  }, [entries, isJustInitialized]);
+  ;
 
   useEffect(() => {
     getEntriesFromStore(setEntries);

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import useModalContext from "./useStoreContext";
+import useStoreContext from "./useStoreContext";
 import { addToStore, updateEntry } from "../utils/updateStore";
 import useGetEntries from "./useGetEntries";
 import useConnectToDb from "./useConnectToDb";
@@ -11,7 +11,7 @@ const useHandleBookmarkFormChange = () => {
 
   const [bookmark, setBookmark] = useState({ name: "", address: "" });
 
-  const { isNewBookmark, isRenameBookmark, dispatch, dispatcherId } = useModalContext();
+  const { isNewBookmark, isRenameBookmark, dispatch, dispatcherId } = useStoreContext();
 
   const { setEntries, entries } = useGetEntries();
 
@@ -56,6 +56,7 @@ const useHandleBookmarkFormChange = () => {
 
   const handleSaveBookmark = (dialogRef) => {
     const { name, address } = bookmark
+    console.log(bookmark)
     if (isRenameBookmark) {
       const arr = address.split("/").filter((i) => i.includes("."));
       const domain = arr.length == 1 ? arr[0] : arr.join();
@@ -74,12 +75,15 @@ const useHandleBookmarkFormChange = () => {
         name,
         parent: parentName,
         address,
+        type: 'bookmark'
       });
+      console.log(entry)
       if (entry) {
         addToStore(db, entry);
         setEntries((prev) => [...prev, entry]);
       }
     }
+    setBookmark({ name: "", address: "" })
     closeModal(dialogRef);
   };
 

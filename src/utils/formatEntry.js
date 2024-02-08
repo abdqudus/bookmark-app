@@ -5,14 +5,14 @@ export const formatEntry = ({
   parent = undefined,
 }) => {
   if (name) {
+    const obj = {
+      id: Date.now(),
+      name,
+      parent,
+      type,
+      path: document.location.pathname,
+    };
     if (type == "folder") {
-      const obj = {
-        id: Date.now(),
-        name,
-        parent,
-        type,
-        path: document.location.pathname,
-      };
       if (parent) {
         return { ...obj, isTopMost: false };
       } else {
@@ -24,18 +24,11 @@ export const formatEntry = ({
     } else {
       const arr = address.split("/").filter((i) => i.includes("."));
       const domain = arr.length == 1 ? arr[0] : arr.join();
-      const obj = {
-        id: Date.now(),
-        name,
-        parent,
-        domain,
-        type: "bookmark",
-        address,
-      };
+
       if (parent) {
-        return { ...obj, isTopMost: false };
+        return { ...obj, isTopMost: false, domain, address };
       } else {
-        return { ...obj, isTopMost: true };
+        return { ...obj, isTopMost: true, domain, address };
       }
     }
   }

@@ -1,16 +1,28 @@
 import Folder from './Folder';
 import BookMarkLink from './BookMarkLink';
 import useGetEntries from '../custom Hooks/useGetEntries';
-import useModalContext from '../custom Hooks/useStoreContext';
-import { useParams } from 'react-router-dom';
+import useStoreContext from '../custom Hooks/useStoreContext';
+import Empty from './Empty';
+import { useEffect, useState } from 'react';
 
 const EntryList = () => {
     const { entries } = useGetEntries()
-    const { parent, isMove } = useModalContext()
+    const [isLoading, setIsLoading] = useState(true)
+
+    useEffect(() => {
+        if (entries.length > 0) {
+            setIsLoading(false)
+        }
+    }, [entries])
+
+
+    const { parent } = useStoreContext()
+
     let filteredEntries = entries.filter((entry) => entry.parent == parent);
 
-
-
+    if (filteredEntries.length == 0 && !isLoading) {
+        return <Empty />
+    }
 
     return (
         <div>

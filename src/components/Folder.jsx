@@ -4,11 +4,11 @@ import Option from "../images/options.png";
 import FolderImg2 from "../images/folder2.png";
 import { useState } from "react";
 import Options from "./Options";
-import useModalContext from "../custom Hooks/useStoreContext";
+import useStoreContext from "../custom Hooks/useStoreContext";
 const Folder = ({ folder }) => {
 
   const [showOptions, setShowOptions] = useState(false);
-  const { dispatch } = useModalContext()
+  const { dispatch } = useStoreContext()
 
 
   const handleClick = () => {

@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import { DispatchContext, StoreContext } from "../contexts/Store";
+import { DispatchContext, StoreContext } from "../Store";
 
-const useModalContext = () => {
+const useStoreContext = () => {
   const modalsContext = useContext(StoreContext);
 
   const {
@@ -28,4 +28,4 @@ const useModalContext = () => {
   };
 };
 
-export default useModalContext;
+export default useStoreContext;
