@@ -24,13 +24,13 @@ const BookmarksInterface = () => {
     }))
     const entry = entries.find(e => e.id == location.id)
     dispatch({ type: 'move' });
-    MoveEntry(db, entry, parent)
+    MoveEntry(db, entry, parent, entries)
   }
   if (input) {
     return <SearchResult />
   }
   return (
-    <div className=" bg-white rounded-2xl overflow-x-hidden relative  text-[#0F1035]">
+    <div className=" bg-white rounded-2xl overflow-x-hidden  text-[#0F1035]">
       <div
         onClick={() => dispatch({ type: "new folder", name: "isNewFolder" })}
         className="p-4 flex cursor-pointer gap-4 hover:bg-[#0F1035] group mb-4 bg-[#0F1035] text-white items-center flex-wrap"
@@ -41,7 +41,7 @@ const BookmarksInterface = () => {
         <p className="flex-grow">New folder</p>
       </div>
       <Outlet />
-      {isMove && <button onClick={handleMoveHere} className="absolute bottom-0 w-full bg-[#0F1035] text-white p-3">Move Here</button>}
+      {isMove && <button onClick={handleMoveHere} className="sticky bottom-0 w-full bg-[#0F1035] text-white p-3">Move Here</button>}
       <AddFolderModal store={store} />
     </div>
   );

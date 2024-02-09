@@ -43,8 +43,7 @@ const useHandleFolderForm = () => {
                 }
                 return e
             })
-            console.log(newEntry)
-            const toBeUpdated = entries.filter(e => e.parent == entry.name)
+            const toBeUpdated = entries.filter(e => e.path.split('/'.includes(entry.name)))
             updateFolder(db, entry.id, folderName.value, toBeUpdated)
             setEntries(newEntry)
 

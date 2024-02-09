@@ -85,7 +85,6 @@ const useHandleBookmarkFormChange = () => {
             address,
             type: 'bookmark'
           });
-          console.log(entry)
           if (entry) {
             addToStore(db, entry);
             setEntries((prev) => [...prev, entry]);

@@ -8,13 +8,12 @@ const HomePageEntryList = () => {
 
   const filteredEntries = entries.filter((entry) => !entry.parent);
 
-
   if (filteredEntries.length == 0 && isEntriesLoaded) {
     return <Empty header="There is nothing here yet" par='Add a bookmark/folder to this folder' />
   }
 
   return (
-    <div>
+    <div className="min-h-[80vh]">
       {filteredEntries
         .filter((entry) => entry.type === "folder")
         .map((folder) => (

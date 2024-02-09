@@ -7,7 +7,6 @@ import Empty from './Empty';
 const EntryList = () => {
     const { entries, isEntriesLoaded } = useGetEntries()
 
-
     const { parent } = useStoreContext()
 
     let filteredEntries = entries.filter((entry) => entry.parent == parent);
@@ -17,7 +16,7 @@ const EntryList = () => {
     }
 
     return (
-        <div>
+        <div className='min-h-[80vh]'>
             {filteredEntries
                 .filter((entry) => entry.type === "folder")
                 .map((folder) => (
