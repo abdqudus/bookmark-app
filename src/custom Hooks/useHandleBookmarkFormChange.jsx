@@ -12,7 +12,7 @@ const useHandleBookmarkFormChange = () => {
 
   const [bookmark, setBookmark] = useState({ name: "", address: "" });
 
-  const { isNewBookmark, isRenameBookmark, dispatch, dispatcherId, isNameMissing, isAddressMissing } = useStoreContext();
+  const { isNewBookmark, isRenameBookmark, dispatch, dispatcherId, isNameMissing, isAddressInvalid } = useStoreContext();
 
   const { setEntries, entries } = useGetEntries();
 
@@ -38,8 +38,9 @@ const useHandleBookmarkFormChange = () => {
     if (e.target.value && isNameMissing) {
       dispatch({ type: 'name-err' })
     }
-    if (e.target.value && isAddressMissing) {
-      dispatch({ type: 'address-err' })
+
+    if (e.target.value && isAddressInvalid) {
+      dispatch({ type: 'invalid-address' })
     }
   };
 
@@ -57,6 +58,7 @@ const useHandleBookmarkFormChange = () => {
       };
       fadeOutModal(dialogRef.current, dispatch, eventObj);
     }
+    setBookmark({ name: "", address: "" })
   };
 
   const handleSaveBookmark = (dialogRef) => {

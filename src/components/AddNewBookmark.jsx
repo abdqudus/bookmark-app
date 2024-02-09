@@ -11,7 +11,7 @@ const AddNewBookmark = () => {
 
   const
     {
-      isNewBookmark, isRenameBookmark, isAddressMissing, isNameMissing, isAddressInvalid
+      isNewBookmark, isRenameBookmark, isNameMissing, isAddressInvalid
     } = useStoreContext();
 
   const display = isNewBookmark || isRenameBookmark ? "flex fade-in" : "hidden";
@@ -56,10 +56,9 @@ const AddNewBookmark = () => {
           <label className="flex-grow-0 text-lg" htmlFor="folderName">
             <span className="block w-full font-semibold">Address :</span>
           </label>
-          {isAddressMissing && <span className="text-red-400">Address is required</span>}
           {isAddressInvalid && <span className="text-red-400">Invalid address</span>}
           <input
-            className={`flex-grow  p-2 focus:outline-[#7FC7D9] outline-2 smallest:w-full ${isAddressMissing || isAddressInvalid ? 'border-red-400' : 'border-[#0F1035] '} border rounded-lg `}
+            className={`flex-grow  p-2 focus:outline-[#7FC7D9] outline-2 smallest:w-full ${isAddressInvalid ? 'border-red-400' : 'border-[#0F1035] '} border rounded-lg `}
             type="text"
             id="address"
             name="address"
