@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import useConnectToDb from './useConnectToDb';
 import useStoreContext from './useStoreContext';
 import useGetEntries from './useGetEntries';
-import { addToStore, updateEntry } from '../utils/updateStore';
+import { addToStore, updateFolder } from '../utils/updateStore';
 import { fadeOutModal } from '../utils/fadeModalOut';
 import { formatEntry } from '../utils/formatEntry';
 
@@ -33,13 +33,19 @@ const useHandleFolderForm = () => {
 
 
         if (isRenameFolder) {
+
             const newEntry = entries.map(e => {
                 if (e.id === entry.id) {
                     return { ...e, name: folderName.value }
+                } else if (e.path.split('/'.includes(entry.name))) {
+                    const path = e.path.replace(entry.name, folderName.value)
+                    return { ...e, parent: folderName.value, path }
                 }
                 return e
             })
-            updateEntry(db, entry.id, folderName.value)
+            console.log(newEntry)
+            const toBeUpdated = entries.filter(e => e.parent == entry.name)
+            updateFolder(db, entry.id, folderName.value, toBeUpdated)
             setEntries(newEntry)
 
         } else {

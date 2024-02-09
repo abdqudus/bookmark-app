@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import useStoreContext from "./useStoreContext";
-import { addToStore, updateEntry } from "../utils/updateStore";
+import { addToStore, updateBookmark } from "../utils/updateStore";
 import useGetEntries from "./useGetEntries";
 import useConnectToDb from "./useConnectToDb";
 import { formatEntry } from "../utils/formatEntry";
@@ -74,7 +74,7 @@ const useHandleBookmarkFormChange = () => {
           }
           return e
         })
-        updateEntry(db, entry.id, name, address, domain)
+        updateBookmark(db, entry.id, name, address, domain)
 
         setEntries(newEntry)
       } else {
