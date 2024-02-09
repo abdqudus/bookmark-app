@@ -3,21 +3,20 @@ import useStoreContext from "./useStoreContext";
 import { addToStore, updateEntry } from "../utils/updateStore";
 import useGetEntries from "./useGetEntries";
 import useConnectToDb from "./useConnectToDb";
-import { useParams } from "react-router-dom";
 import { formatEntry } from "../utils/formatEntry";
 import { fadeOutModal } from '../utils/fadeModalOut'
+import { getParentFromUrl } from "../utils/getParentFromPath";
+import isValidAddress from "../utils/checkWebsite";
 
 const useHandleBookmarkFormChange = () => {
 
   const [bookmark, setBookmark] = useState({ name: "", address: "" });
 
-  const { isNewBookmark, isRenameBookmark, dispatch, dispatcherId } = useStoreContext();
+  const { isNewBookmark, isRenameBookmark, dispatch, dispatcherId, isNameMissing, isAddressMissing } = useStoreContext();
 
   const { setEntries, entries } = useGetEntries();
 
   const { db } = useConnectToDb();
-
-  const { parentName } = useParams();
 
   const entry = entries.find(e => e.id == dispatcherId)
 
@@ -36,6 +35,12 @@ const useHandleBookmarkFormChange = () => {
 
   const handleChange = (e) => {
     setBookmark((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    if (e.target.value && isNameMissing) {
+      dispatch({ type: 'name-err' })
+    }
+    if (e.target.value && isAddressMissing) {
+      dispatch({ type: 'address-err' })
+    }
   };
 
   const closeModal = (dialogRef) => {
@@ -56,35 +61,48 @@ const useHandleBookmarkFormChange = () => {
 
   const handleSaveBookmark = (dialogRef) => {
     const { name, address } = bookmark
-    console.log(bookmark)
-    if (isRenameBookmark) {
-      const arr = address.split("/").filter((i) => i.includes("."));
-      const domain = arr.length == 1 ? arr[0] : arr.join();
-      const newEntry = entries.map(e => {
-        if (e.id === entry.id) {
-          return { ...e, name, address, domain }
+    if (isValidAddress(address)) {
+
+      if (isRenameBookmark) {
+        const arr = address.split("/").filter((i) => i.includes("."));
+        const domain = arr.length == 1 ? arr[0] : arr.join();
+        const newEntry = entries.map(e => {
+          if (e.id === entry.id) {
+            return { ...e, name, address, domain }
+          }
+          return e
+        })
+        updateEntry(db, entry.id, name, address, domain)
+
+        setEntries(newEntry)
+      } else {
+        if (name && address) {
+          const entry = formatEntry({
+            name,
+            parent: getParentFromUrl(window.location),
+            address,
+            type: 'bookmark'
+          });
+          console.log(entry)
+          if (entry) {
+            addToStore(db, entry);
+            setEntries((prev) => [...prev, entry]);
+          }
+          setBookmark({ name: "", address: "" })
+          closeModal(dialogRef);
         }
-        return e
-      })
-      updateEntry(db, entry.id, name, address, domain)
+        else if (!name) {
+          dispatch({ type: 'name-err' })
+        }
+        else if (!address) {
+          dispatch({ type: 'address-err' })
+        }
 
-      setEntries(newEntry)
-    } else {
 
-      const entry = formatEntry({
-        name,
-        parent: parentName,
-        address,
-        type: 'bookmark'
-      });
-      console.log(entry)
-      if (entry) {
-        addToStore(db, entry);
-        setEntries((prev) => [...prev, entry]);
       }
+    } else {
+      dispatch({ type: 'invalid-address' })
     }
-    setBookmark({ name: "", address: "" })
-    closeModal(dialogRef);
   };
 
   return { bookmark, handleChange, entry, handleSaveBookmark, closeModal };

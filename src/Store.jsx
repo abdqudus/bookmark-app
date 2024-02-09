@@ -18,7 +18,10 @@ const initialState = {
   isMove: false,
   parent,
   moveTo: '',
-  input: ''
+  input: '',
+  isNameMissing: false,
+  isAddressMissing: false,
+  isAddressInvalid: false
 };
 
 
@@ -48,6 +51,15 @@ const storeReducer = (storeState, action) => {
     }
     case 'search': {
       return { ...storeState, input: payload }
+    }
+    case 'name-err': {
+      return { ...storeState, isNameMissing: !storeState.isNameMissing }
+    }
+    case 'address-err': {
+      return { ...storeState, isAddressMissing: !storeState.isAddressMissing }
+    }
+    case 'invalid-address': {
+      return { ...storeState, isAddressInvalid: !storeState.isAddressInvalid }
     }
     default:
       break;
