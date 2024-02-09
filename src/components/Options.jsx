@@ -40,7 +40,7 @@ const Options = ({ entry, showOptions, setShowOptions }) => {
       onClick={(e) => {
         e.stopPropagation();
       }}
-      className={`absolute options z-10 ${visibility} transition right-0 rounded-xl w-[150px] bg-white border-2 shadow-slate-600 text-[#0F1035]`}
+      className={`absolute options z-10 ${visibility} transition -right-4 top-[110%] rounded-xl w-[150px] bg-white border-2 shadow-slate-600 text-[#0F1035]`}
     >
       <p
         onClick={handleDelete}

@@ -25,7 +25,7 @@ const BookMarkLink = ({ entry }) => {
             {entry.domain}
           </a>
         </div>
-        <div className="">
+        <div className="relative">
           <button
             onClick={() => setShowOptions(!showOptions)}
             className="cursor-pointer self-start mt-[10px]"

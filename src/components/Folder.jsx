@@ -40,7 +40,7 @@ const Folder = ({ folder }) => {
           <p className="flex-grow font-bold ">{folder.name}</p>
         </div>
       </Link>
-      <div className="">
+      <div className="relative">
         <button
           onClick={() => setShowOptions(!showOptions)}
           className="cursor-pointer self-start mt-[10px]"
